@@ -1,0 +1,173 @@
+type Project {
+  id: ID!
+  title: String!
+  description: String!
+  technologies: [String!]!
+  date: AWSDate!
+  github: AWSURL!
+  imgURL: AWSURL
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelProjectConnection {
+  items: [Project]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelProjectFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  description: ModelStringInput
+  technologies: ModelStringInput
+  date: ModelStringInput
+  github: ModelStringInput
+  imgURL: ModelStringInput
+  and: [ModelProjectFilterInput]
+  or: [ModelProjectFilterInput]
+  not: ModelProjectFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getProject(id: ID!): Project
+  listProjects(filter: ModelProjectFilterInput, limit: Int, nextToken: String): ModelProjectConnection
+}
+
+input CreateProjectInput {
+  id: ID
+  title: String!
+  description: String!
+  technologies: [String!]!
+  date: AWSDate!
+  github: AWSURL!
+  imgURL: AWSURL
+}
+
+input UpdateProjectInput {
+  id: ID!
+  title: String
+  description: String
+  technologies: [String!]
+  date: AWSDate
+  github: AWSURL
+  imgURL: AWSURL
+}
+
+input DeleteProjectInput {
+  id: ID
+}
+
+type Mutation {
+  createProject(input: CreateProjectInput!, condition: ModelProjectConditionInput): Project
+  updateProject(input: UpdateProjectInput!, condition: ModelProjectConditionInput): Project
+  deleteProject(input: DeleteProjectInput!, condition: ModelProjectConditionInput): Project
+}
+
+input ModelProjectConditionInput {
+  title: ModelStringInput
+  description: ModelStringInput
+  technologies: ModelStringInput
+  date: ModelStringInput
+  github: ModelStringInput
+  imgURL: ModelStringInput
+  and: [ModelProjectConditionInput]
+  or: [ModelProjectConditionInput]
+  not: ModelProjectConditionInput
+}
+
+type Subscription {
+  onCreateProject: Project @aws_subscribe(mutations: ["createProject"])
+  onUpdateProject: Project @aws_subscribe(mutations: ["updateProject"])
+  onDeleteProject: Project @aws_subscribe(mutations: ["deleteProject"])
+}

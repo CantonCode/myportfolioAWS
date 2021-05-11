@@ -1,0 +1,8 @@
+{
+    "CreateAPIKey": 1,
+    "AppSyncApiName": "projectapi",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "S3DeploymentBucket": "amplify-portfolio-dev-150803-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/8fd6b08849f501f7b172064244bb86e2f2e362c1"
+}
